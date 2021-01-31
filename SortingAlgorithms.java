@@ -8,6 +8,7 @@ import java.util.Scanner;
  * SortingAlgorithms
  */
 public class SortingAlgorithms {
+    test
     public static void main(String[] args) {
         int size;
         Random rand = new Random();
