@@ -31,6 +31,16 @@ public class SortingAlgorithms {
         input.close();
     }
 
+    /**
+     * Merge Sort
+     * 
+     * NOTE: this version of merge sort is not correct for animation/keeping track
+     * of how the indices are being sorted. This one uses a newly created array
+     * every split making it less efficient and harder to keep track of.
+     * 
+     * @param arr // original array
+     * @return
+     */
     public static List<Integer> MergeSort(List<Integer> arr) {
         List<Integer> arr1 = new ArrayList<Integer>();
         List<Integer> arr2 = new ArrayList<Integer>();
@@ -47,6 +57,13 @@ public class SortingAlgorithms {
         return merge(arr1, arr2);
     }
 
+    /**
+     * merge
+     * 
+     * @param arr1 // first half of array
+     * @param arr2 // second half of array
+     * @return
+     */
     public static List<Integer> merge(List<Integer> arr1, List<Integer> arr2) {
         List<Integer> arr3 = new ArrayList<Integer>();
         ListIterator<Integer> arr1It = arr1.listIterator();
