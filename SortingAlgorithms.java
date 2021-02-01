@@ -1,6 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -17,78 +14,64 @@ public class SortingAlgorithms {
         size = input.nextInt();
         System.out.println();
 
-        List<Integer> arr = new ArrayList<Integer>(); // array to be sorted
+        // create array
+        int[] arr = new int[size];
 
         // randomly generate array
-        for (int i = 0; i < size; i++) {
-            arr.add(1 + rand.nextInt(100));
-        }
-        System.out.println(arr);
+        for (int i = 0; i < arr.length; i++)
+            arr[i] = 1 + rand.nextInt(100);
+
+        // print b4 sort
+        for (int i = 0; i < arr.length; i++)
+            System.out.print(arr[i] + ", ");
+        System.out.println();
 
         // sort
-        System.out.println(MergeSort(arr));
+        mergeSort(arr, 0, arr.length - 1);
+
+        // print sorted array
+        for (int i = 0; i < arr.length; i++)
+            System.out.print(arr[i] + ", ");
+        System.out.println();
 
         input.close();
     }
 
-    /**
-     * Merge Sort
-     * 
-     * NOTE: this version of merge sort is not correct for animation/keeping track
-     * of how the indices are being sorted. This one uses a newly created array
-     * every split making it less efficient and harder to keep track of.
-     * 
-     * @param arr // original array
-     * @return
-     */
-    public static List<Integer> MergeSort(List<Integer> arr) {
-        List<Integer> arr1 = new ArrayList<Integer>();
-        List<Integer> arr2 = new ArrayList<Integer>();
+    public static void mergeSort(int[] arr, int leftHead, int rightTail) {
+        if (leftHead >= rightTail)
+            return;
 
-        if (arr.size() == 1)
-            return arr;
+        int middle = (leftHead + rightTail) / 2;
+        mergeSort(arr, leftHead, middle);
+        mergeSort(arr, middle + 1, rightTail);
 
-        arr1 = arr.subList(0, (arr.size() / 2));
-        arr2 = arr.subList((arr.size() / 2), arr.size());
-
-        arr1 = MergeSort(arr1);
-        arr2 = MergeSort(arr2);
-
-        return merge(arr1, arr2);
+        merge(arr, leftHead, rightTail);
     }
 
-    /**
-     * merge
-     * 
-     * @param arr1 // first half of array
-     * @param arr2 // second half of array
-     * @return
-     */
-    public static List<Integer> merge(List<Integer> arr1, List<Integer> arr2) {
-        List<Integer> arr3 = new ArrayList<Integer>();
-        ListIterator<Integer> arr1It = arr1.listIterator();
-        ListIterator<Integer> arr2It = arr2.listIterator();
+    public static void merge(int[] arr, int leftHead, int rightTail) {
+        int[] temp = new int[arr.length]; // temp array
+        int leftTail = (leftHead + rightTail) / 2;
+        int rightHead = leftTail + 1;
+        int size = rightTail - leftHead + 1;
 
-        while (arr1It.hasNext() && arr2It.hasNext()) {
-            if (arr1.get(arr1It.nextIndex()) < arr2.get(arr2It.nextIndex())) {
-                arr3.add(arr1.get(arr1It.nextIndex()));
-                arr1It.next();
-            } else {
-                arr3.add(arr2.get(arr2It.nextIndex()));
-                arr2It.next();
-            }
+        int leftP = leftHead; // pointer for right half
+        int rightP = rightHead; // pointer for left half
+        int ptrTA = leftHead; // pointer for temp array
+
+        while (leftP <= leftTail && rightP <= rightTail) {
+            if (arr[leftP] <= arr[rightP])
+                temp[ptrTA++] = arr[leftP++];
+            else
+                temp[ptrTA++] = arr[rightP++];
         }
 
-        while (arr1It.hasNext()) {
-            arr3.add(arr1.get(arr1It.nextIndex()));
-            arr1It.next();
-        }
-        while (arr2It.hasNext()) {
-            arr3.add(arr2.get(arr2It.nextIndex()));
-            arr2It.next();
-        }
+        System.arraycopy(arr, leftP, temp, ptrTA, leftTail - leftP + 1);
+        System.arraycopy(arr, rightP, temp, ptrTA, rightTail - rightP + 1);
+        System.arraycopy(temp, leftHead, arr, leftHead, size);
 
-        return arr3;
+        for (int i = 0; i < arr.length; i++)
+            System.out.print(arr[i] + ", ");
+        System.out.println();
     }
 
     public static void HeapSort(int[] arr) {
