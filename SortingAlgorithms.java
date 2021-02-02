@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.lang.Math;
 
 /**
  * SortingAlgorithms
@@ -27,7 +28,9 @@ public class SortingAlgorithms {
         System.out.println();
 
         // sort
-        mergeSort(arr, 0, arr.length - 1);
+        // mergeSort(arr, 0, arr.length - 1);
+        // HeapSort(arr, arr.length);
+        BubbleSort(arr);
 
         // print sorted array
         for (int i = 0; i < arr.length; i++)
@@ -74,8 +77,57 @@ public class SortingAlgorithms {
         System.out.println();
     }
 
-    public static void HeapSort(int[] arr) {
+    public static void HeapSort(int[] arr, int arrSize) {
+        int heapSize = arrSize;
+        buildMaxHeap(arr, arrSize);
 
+        for (int i = arrSize; i > 1; i--) {
+            // swap first and last
+            int temp = arr[heapSize - 1];
+            arr[heapSize - 1] = arr[0];
+            arr[0] = temp;
+            // decrease size since last element is sorted
+            heapSize--;
+            backToHeap(arr, 0, heapSize);
+        }
+    }
+
+    public static void buildMaxHeap(int[] arr, int size) {
+        for (int i = ((int) Math.floor(size / 2) - 1); i >= 0; i--) {
+            backToHeap(arr, i, size);
+        }
+    }
+
+    public static void backToHeap(int[] arr, int ptr, int size) {
+        int max;
+        int forRL = ptr + 1;
+
+        int left = (forRL * 2) - 1;
+        int right = (forRL * 2 + 1) - 1;
+
+        System.out.println(ptr + ", " + left + ", " + right);
+
+        if (left <= size - 1 && arr[left] > arr[ptr])
+            max = left;
+        else
+            max = ptr;
+
+        if (right <= size - 1 && arr[right] > arr[max])
+            max = right;
+
+        if (max != ptr) {
+            // swap max and i
+            int temp = arr[max];
+            arr[max] = arr[ptr];
+            arr[ptr] = temp;
+
+            for (int i = 0; i < arr.length; i++)
+                System.out.print(arr[i] + ", ");
+            System.out.println();
+
+            // heapify a starting at new max
+            backToHeap(arr, max, size);
+        }
     }
 
     public static void BubbleSort(int[] arr) {
