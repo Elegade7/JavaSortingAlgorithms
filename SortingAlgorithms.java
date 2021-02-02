@@ -105,8 +105,6 @@ public class SortingAlgorithms {
         int left = (forRL * 2) - 1;
         int right = (forRL * 2 + 1) - 1;
 
-        System.out.println(ptr + ", " + left + ", " + right);
-
         if (left <= size - 1 && arr[left] > arr[ptr])
             max = left;
         else
